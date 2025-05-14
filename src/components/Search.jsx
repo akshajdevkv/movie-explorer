@@ -9,7 +9,7 @@ const Search = (props) => {
         placeholder='Search through thousands of movies'
         value={props.searchTerm}
       
-       
+        onChange={(event)=>props.setSearchTerm(event.target.value)}
         />
         </div>
     </div>
