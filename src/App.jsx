@@ -21,11 +21,11 @@ function App(){
   const [errorMessage,setErrorMessage] = useState('');
   const [movieList,setMovieList] = useState([]);
   const [isLoading,setIsLoading]= useState();
-  const fetchMovies=async()=>{
+  const fetchMovies=async(query)=>{
     setErrorMessage('');
     setIsLoading(true);
     try{
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = query?`${API_BASE_URL}/search/movie?query=${encodeURI(query)}`:`${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       const response =await fetch(endpoint,API_OPTIONS);
       if(!response.ok){
         throw new Error("failed to fetch new movies")
@@ -41,16 +41,16 @@ function App(){
   }
    
   useEffect(()=>{
-    fetchMovies();
+    fetchMovies(searchTerm);
 
-  },[]);
+  },[searchTerm]);
   return <main>
     <div className='pattern'/>
     <div className='wrapper'>
       <header>
         <img src="/hero.png" alt="Hero Banner" />
         <h1 >Find <span className='text-gradient'>Movies</span> that you'll enjoy without Hassle</h1>
-        <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
       </header>
       <section className='all-movies'>
         <h2 className='mt-[20px]'>All Movies</h2>
